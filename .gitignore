@@ -2,6 +2,7 @@
 *.o
 *.a
 *.so
+go-json-api
 
 # Folders
 _obj
@@ -22,3 +23,7 @@ _testmain.go
 *.exe
 *.test
 *.prof
+
+# Project-local glide cache, RE: https://github.com/Masterminds/glide/issues/736
+.glide/
+vendor

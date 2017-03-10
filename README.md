@@ -1,2 +1,22 @@
 # go-json-api
-go-json-api
+http://sgykfjsm.github.io/blog/2016/03/13/golang-json-api-tutorial/
+を写経。
+
+## 動かし方
+```
+glide install
+go build
+./go-json-api
+```
+他のプロジェクトで使用する場合は、
+```
+glide get github.com/atsushi-ishibashi/go-json-api
+```
+でできるはず
+
+### 確認
+Todo一覧 `curl http://localhost:8080/todos`  
+Todo詳細 `curl http://localhost:8080/todos/:todo_id`  
+Todo作成 `curl -H "Content-Type: application/json" -d '{"name":"New Todo"}' http://localhost:8080/todos`  
+Todo削除 DELETE /todos/:todo_id  
+＊POSTMANからうまくTodo作成のPOSTができない。。
