@@ -20,6 +20,10 @@ func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 func TodoIndex(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	w.WriteHeader(http.StatusOK)
 
+	var todos Todos
+	if err := todos.selectAll(); err != nil {
+		panic(err)
+	}
 	if err := json.NewEncoder(w).Encode(todos); err != nil {
 		panic(err)
 	}
@@ -43,7 +47,6 @@ func TodoShow(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 //TodoCreate ...
 func TodoCreate(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	var todo Todo
-
 	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
 	if err != nil {
 		panic(err)

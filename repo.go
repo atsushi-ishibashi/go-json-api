@@ -1,42 +1,49 @@
 package main
 
-import "fmt"
+import (
+	"database/sql"
+	"fmt"
+
+	_ "github.com/go-sql-driver/mysql"
+)
 
 var (
-	todos     Todos
-	currentID int
+	db *sql.DB
 )
 
 func init() {
-	RepoCreateTodo(Todo{Name: "Write presentation"})
-	RepoCreateTodo(Todo{Name: "Host meetup"})
+	var err error
+	db, err = sql.Open("mysql", "root:@/gotest?parseTime=true")
+	if err != nil {
+		panic(err)
+	}
 }
 
 //RepoFindTodo ....
 func RepoFindTodo(id int) Todo {
-	for _, t := range todos {
-		if t.ID == id {
-			return t
-		}
+	var t Todo
+	if err := t.findByID(id); err != nil {
+		fmt.Printf("Failed QueryRow: %s", err)
+		return Todo{}
 	}
-	return Todo{}
+	return t
 }
 
 //RepoCreateTodo ....
 func RepoCreateTodo(t Todo) Todo {
-	currentID++
-	t.ID = currentID
-	todos = append(todos, t)
+	if err := t.insertTodo(); err != nil {
+		fmt.Printf("Failed RepoCreateTodo: %s", err)
+		return Todo{}
+	}
 	return t
 }
 
 //RepoDestroyTodo ...
 func RepoDestroyTodo(id int) error {
-	for i, t := range todos {
-		if t.ID == id {
-			todos = append(todos[:i], todos[i+1:]...)
-			return nil
-		}
+	var t Todo
+	if err := t.destroyByID(id); err != nil {
+		fmt.Printf("Failed destroyByID: %s", err)
+		return err
 	}
-	return fmt.Errorf("Could not find Todo with id of %d to delete", id)
+	return nil
 }
