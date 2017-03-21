@@ -19,6 +19,7 @@ Todo一覧 `curl http://localhost:8080/todos`
 Todo詳細 `curl http://localhost:8080/todos/:todo_id`  
 Todo作成 `curl -H "Content-Type: application/json" -d '{"name":"New Todo", "due":"2017-03-27T00:00:00Z"}' http://localhost:8080/todos`  
 Todo削除 DELETE /todos/:todo_id  `curl -X DELETE -H "Content-Type: application/json" http://localhost:8080/todos/:todo_id`
+
 ＊POSTMANからうまくTodo作成のPOSTができない。。
 
 ### mysqlの設定
